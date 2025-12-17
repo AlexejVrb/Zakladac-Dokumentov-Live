@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Zakladač dokumentov</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+  <style>
+    body, html {
+      margin: 0;
+      overflow: hidden;
+      font-family: 'Inter', sans-serif;
+    }
+
+    #textBox p,
+    #rightPanel p {
+      text-align: justify;
+      hyphens: auto;
+    }
+
+    /* Ľavý text */
+    #textBox {
+      position: absolute;
+      top: 50%;
+      left: 20px;
+      transform: translateY(-50%);
+      width: 450px;
+      max-height: 75vh;
+      font-family: 'Playfair Display', serif;
+      font-size: 20px;
+      color: black;
+      z-index: 10;
+      overflow: hidden;
+    }
+
+    #textContent {
+      transition: transform 0.1s;
+    }
+
+    /* PRAVÝ TEXT – BEZ BOXU */
+    #rightPanel {
+      position: absolute;
+      top: 45%;
+      right: 140px;
+      transform: translateY(-50%);
+      width: 420px;
+      font-family: 'Playfair Display', serif;
+      color: white;
+      z-index: 10;
+    }
+
+    #rightPanel h2 {
+      font-size: 72px;
+      line-height: 0.95;
+      margin-bottom: 30px;
+      font-weight: 700;
+    }
+
+    #descriptionText p {
+      font-size: 16px;
+      line-height: 1.5;
+      margin: 6px 0;
+      color: rgba(255,255,255,0.9);
+      margin-left: 240px;
+      margin-top: -220px;
+    }
+
+    .dimensions {
+      margin-top: 18px;
+      display: flex;
+      gap: 25px;
+      font-size: 14px;
+      color: rgba(255,255,255,0.85);
+    }
+
+    /* ORDER */
+    #orderSection {
+      margin-top: 35px;
+      display: flex;
+      align-items: center;
+      gap: 18px;
+    }
+
+    .quantityBox {
+      display: flex;
+      align-items: center;
+      border: 1px solid rgba(255,255,255,0.6);
+      border-radius: 30px;
+      padding: 8px 14px;
+      gap: 14px;
+    }
+
+    .quantityBox button {
+      background: none;
+      border: none;
+      color: white;
+      font-size: 18px;
+      cursor: pointer;
+    }
+
+    .quantityBox span {
+      font-size: 16px;
+    }
+
+    #orderButton {
+      background: black;
+      color: white;
+      border: none;
+      border-radius: 30px;
+      padding: 14px 26px;
+      font-size: 14px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+    }
+
+      /* RIADOK POD NADPISOM */
+    .productRow {
+      display: flex;
+      gap: 40px;
+      align-items: flex-start;
+    }
+
+    /* SKICA */
+    #sketchWrap {
+      position: relative;
+      width: 170px;
+      margin-top: 5px;
+    }
+
+    .productSketch {
+      width: 100%;
+      stroke: white;
+      stroke-width: 1.8;
+      fill: none;
+      opacity: 0.9;
+      stroke-linecap: square;
+    }
+
+    /* ROZMERY */
+    .dim {
+      position: absolute;
+      font-size: 12px;
+      color: rgba(255,255,255,0.85);
+      font-family: 'Inter', sans-serif;
+      letter-spacing: 0.5px;
+    }
+
+    .dim-w {
+      bottom: -18px;
+      left: 30px;
+    }
+
+    .dim-h {
+      right: -50px;
+      top: 95px;
+      transform: rotate(-90deg);
+    }
+
+    .dim-d {
+      left: -48px;
+      top: 120px;
+      transform: rotate(-20deg);
+    }
+
+    /* TEXT VPRAVO */
+    #descriptionText {
+      margin-top: 15px;
+    }
+
+    #descriptionText p {
+      font-size: 15px;
+      line-height: 1.45;
+      margin: 6px 0;
+      color: rgba(255,255,255,0.9);
+    }
+
+    /* BUTTONS POD SEBOU */
+    #orderSection {
+      margin-top: 40px;
+      display: flex;
+      gap: 18px;
+      align-items: center;
+    }
+
+    .price {
+      margin-top: -50px;
+      margin-left: 210px; /* ⬅️ KĽÚČOVÝ RIADOK */
+      font-family: 'Playfair Display', serif;
+      font-size: 34px;
+      font-weight: 700;
+      color: white;
+      line-height: 1;
+      letter-spacing: 0.8px;
+    }
+
+
+  </style>
+</head>
+
+
+<body>
+
+ <!-- Ľavý textový panel -->
+<div id="textBox">
+  <div id="textContent">
+    <p>
+      Tento zakladač dokumentov je praktickým doplnkom každého pracovného priestoru. Slúži na 
+      prehľadné ukladanie dokumentov, zakladačov, časopisov či rôznych kancelárskych potrieb, 
+      ktoré potrebujeme mať vždy po ruke. Vďaka svojmu otvorenému dizajnu umožňuje rýchly 
+      prístup ku všetkému, čo bežne používame, a zároveň pomáha udržiavať poriadok.
+      <br><br>
+      Zakladač dokumentov je vyrobený z kvalitného dreva, kovu alebo MDF materiálu s kovovými 
+      prvkami. Tieto materiály zabezpečujú vysokú odolnosť, stabilitu a dlhú životnosť aj pri 
+      častom používaní. Povrch je ľahko umývateľný a nenáročný na údržbu.
+      <br><br>
+      Vďaka kompaktným rozmerom — približne 25–35 cm na šírku, 20–30 cm na výšku a 
+      20–25 cm do hĺbky — sa ľahko umiestni na pracovný stôl alebo do menších kancelárskych 
+      priestorov bez toho, aby prekážal.
+      <br><br>
+      Oplatiť sa ho hlavne preto, že zlepšuje organizáciu práce, šetrí čas pri hľadaní 
+      dokumentov a zlepšuje celkovú prehľadnosť pracovného prostredia. Ide o praktický a 
+      estetický doplnok, ktorý zvyšuje efektivitu aj komfort pri práci.
+      <br><br>
+      Zakladač dokumentov je vhodný nielen do kancelárie, ale aj do domácnosti, školy či 
+      študentskej izby. Využijú ho študenti, administratívni pracovníci aj manažéri, ktorí 
+      potrebujú mať dôležité papiere systematicky usporiadané a vždy po ruke.
+      <br><br>
+      Tento praktický doplnok je navyše dostupný v rôznych farebných prevedeniach a štýloch, 
+      takže si ho môžete jednoducho zladiť so zvyškom interiéru. Či už uprednostňujete moderný 
+      minimalistický dizajn, prírodný vzhľad dreva alebo elegantné kovové prevedenie, vždy si 
+      nájdete variant, ktorý váš pracovný priestor doplní funkčne aj esteticky.
+    </p>
+  </div>
+</div>
+
+  <div id="rightPanel">
+
+  <h2>Zakladač<br>dokumentov</h2>
+
+  <div class="productRow">
+
+ <div id="sketchWrap">
+
+      <svg viewBox="0 0 200 260" class="productSketch">
+        <!-- zadná stena -->
+        <path d="M50 40 L150 20 L150 220 L50 240 Z" />
+        <!-- bočná stena -->
+        <path d="M50 40 L30 60 L30 260 L50 240 Z" />
+        <!-- spodná hrana -->
+        <path d="M50 240 L150 220" />
+      </svg>
+
+      <div class="dim dim-w">25–35 cm</div>
+      <div class="dim dim-h">20–30 cm</div>
+      <div class="dim dim-d">20–25 cm</div>
+
+    </div> 
+  
+    <!-- PRAVO: VLASTNOSTI -->
+    <div id="descriptionText">
+      <p><strong>Materiály:</strong> Drevo, kov, MDF</p>
+      <p><strong>Povrch:</strong> Ľahko umývateľný</p>
+      <p><strong>Vlastnosti:</strong> Otvorený dizajn</p>
+      <p><strong>Odolnosť:</strong> Stabilná konštrukcia</p>
+    </div>
+  </div>
+
+  <div class="price">Cena: 10 €</div>
+
+  <!-- ORDER -->
+  <div id="orderSection">
+    <div class="quantityBox">
+      <button>-</button>
+      <span>1</span>
+      <button>+</button>
+    </div>
+
+    <button id="orderButton">
+      Objednať
+      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="white">
+        <path d="M7 4h-2l-3 9h2l1-3h12l1 3h2l-3-9h-2l-1 3h-8l-1-3z"/>
+      </svg>
+    </button>
+  </div>
+
+</div>
+
+
+  <!-- Three.js scéna a skripty -->
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "https://unpkg.com/three@0.169.0/build/three.module.js",
+      "three/addons/": "https://unpkg.com/three@0.169.0/examples/jsm/"
+    }
+  }
+  </script>
+
+  <script type="module">
+    import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.169.0/build/three.module.js';
+    import { OrbitControls } from 'https://cdn.jsdelivr.net/npm/three@0.169.0/examples/jsm/controls/OrbitControls.js';
+    import { GLTFLoader } from 'https://cdn.jsdelivr.net/npm/three@0.169.0/examples/jsm/loaders/GLTFLoader.js';
+    import { DRACOLoader } from 'https://cdn.jsdelivr.net/npm/three@0.169.0/examples/jsm/loaders/DRACOLoader.js';
+    import { RoomEnvironment } from 'https://cdn.jsdelivr.net/npm/three@0.169.0/examples/jsm/environments/RoomEnvironment.js';
+    import Stats from 'https://cdn.jsdelivr.net/npm/three@0.169.0/examples/jsm/libs/stats.module.js';
+
+    let mixer;
+    let model;
+    const clock = new THREE.Clock();
+
+    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+    renderer.setPixelRatio(window.devicePixelRatio);
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    document.body.appendChild(renderer.domElement);
+
+    const scene = new THREE.Scene();
+
+    // BG bielo-červený s vertikálnym gradientom len na pravej strane
+    const bgCanvas = document.createElement('canvas');
+    bgCanvas.width = 1024;
+    bgCanvas.height = 512;
+    const bgCtx = bgCanvas.getContext('2d');
+
+    bgCtx.fillStyle = "white";
+    bgCtx.fillRect(0, 0, bgCanvas.width/2, bgCanvas.height);
+
+    const rightGradient = bgCtx.createLinearGradient(bgCanvas.width/2, 0, bgCanvas.width/2, bgCanvas.height);
+    rightGradient.addColorStop(0, "#b30000");
+    rightGradient.addColorStop(1, "#581F1F");
+    bgCtx.fillStyle = rightGradient;
+    bgCtx.fillRect(bgCanvas.width/2, 0, bgCanvas.width/2, bgCanvas.height);
+
+    scene.background = new THREE.CanvasTexture(bgCanvas);
+
+    const pmremGenerator = new THREE.PMREMGenerator(renderer);
+    scene.environment = pmremGenerator.fromScene(new RoomEnvironment(), 0.04).texture;
+
+    const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 100);
+    camera.position.set(0, 1.5, 6);
+
+    const controls = new OrbitControls(camera, renderer.domElement);
+    controls.enableDamping = true;
+    controls.enablePan = false;
+    controls.enableZoom = false;
+
+    const light = new THREE.DirectionalLight(0xffffff, 2);
+    light.position.set(5, 10, 7);
+    scene.add(light);
+
+    const stats = new Stats();
+    document.body.appendChild(stats.dom);
+
+    const dracoLoader = new DRACOLoader();
+    dracoLoader.setDecoderPath('https://cdn.jsdelivr.net/npm/three@0.169.0/examples/jsm/libs/draco/gltf/');
+
+    const loader = new GLTFLoader();
+    loader.setDRACOLoader(dracoLoader);
+    loader.load(
+      './Polica/source/office_decor_holder_magazine.glb',
+      gltf => {
+        model = gltf.scene;
+        scene.add(model);
+
+        const box = new THREE.Box3().setFromObject(model);
+        const center = box.getCenter(new THREE.Vector3());
+        model.position.sub(center);
+        model.scale.set(5, 5, 5);
+
+        mixer = new THREE.AnimationMixer(model);
+        if (gltf.animations.length > 0) mixer.clipAction(gltf.animations[0]).play();
+
+        renderer.setAnimationLoop(animate);
+      }
+    );
+
+    window.addEventListener('resize', () => {
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+    });
+
+    let modelRotationTarget = 0;
+    let modelRotationSpeed = 0;
+
+    const textBox = document.getElementById("textBox");
+    const textContent = document.getElementById("textContent");
+
+    // 🔹 FUNKČNÝ SCROLL LEN V JS
+    let textScroll = 0;
+
+    window.addEventListener("wheel", (e) => {
+      e.preventDefault();
+
+      const maxScroll = textContent.scrollHeight - textBox.clientHeight;
+
+      textScroll -= e.deltaY * 0.4;
+      if (textScroll > 0) textScroll = 0;
+      if (textScroll < -maxScroll) textScroll = -maxScroll;
+
+      textContent.style.transform = `translateY(${textScroll}px)`;
+
+      modelRotationSpeed += e.deltaY * 0.0015;
+    }, { passive: false });
+
+    function animate() {
+      const delta = clock.getDelta();
+      if (mixer) mixer.update(delta);
+      controls.update();
+      stats.update();
+
+      if (model) {
+        modelRotationTarget += modelRotationSpeed;
+        model.rotation.y = modelRotationTarget;
+        modelRotationSpeed *= 0.95;
+      }
+
+      renderer.render(scene, camera);
+    }
+
+    const quantityBox = document.querySelector('.quantityBox');
+    const minusBtn = quantityBox.querySelector('button:first-child');
+    const plusBtn = quantityBox.querySelector('button:last-child');
+    const quantityDisplay = quantityBox.querySelector('span');
+
+    let quantity = 1; // počiatočný počet
+
+    minusBtn.addEventListener('click', () => {
+      if (quantity > 1) {
+        quantity--;
+        quantityDisplay.textContent = quantity;
+      }
+    });
+
+    plusBtn.addEventListener('click', () => {
+      quantity++;
+      quantityDisplay.textContent = quantity;
+    });
+
+    // Ak chceš, aby sa počet posielal pri objednaní:
+    const orderButton = document.getElementById('orderButton');
+    orderButton.addEventListener('click', () => {
+      alert(`Objednávaš ${quantity} ks zakladača dokumentov.`);
+      // tu môžeš pridať AJAX/POST request na server
+    });
+  </script>
+
+</body>
+</html>
